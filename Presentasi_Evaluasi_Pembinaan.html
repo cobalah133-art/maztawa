@@ -1,0 +1,864 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171716">
+  <title>Evaluasi Pembinaan Atlet Para-Taekwondo — Forum Internal</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #f4f0e9;
+      --muted: #aaa9a2;
+      --dim: #74746f;
+      --night: #171716;
+      --panel: #20201e;
+      --panel-2: #282825;
+      --line: rgba(244,240,233,.14);
+      --red: #d45642;
+      --red-soft: #f09a83;
+      --gold: #d7b779;
+      --mint: #9bc3ae;
+      --blue: #a8bfd6;
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: Inter, "Segoe UI", Arial, sans-serif;
+      --gutter: clamp(24px, 5vw, 76px);
+      --ease: cubic-bezier(.22,.75,.25,1);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; background: var(--night); }
+    body {
+      color: var(--ink);
+      font-family: var(--sans);
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    button { font: inherit; }
+    button:focus-visible, a:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+    .skip-link {
+      position: fixed; z-index: 100; left: 12px; top: -60px;
+      padding: 12px 16px; color: var(--night); background: var(--ink);
+    }
+    .skip-link:focus { top: 12px; }
+    .deck {
+      position: relative;
+      width: 100%; height: 100%;
+      min-height: 500px;
+      background:
+        radial-gradient(ellipse at 84% 2%, rgba(212,86,66,.10), transparent 32%),
+        var(--night);
+      isolation: isolate;
+    }
+    .topbar {
+      position: absolute; z-index: 10; inset: 0 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 19px var(--gutter);
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      color: var(--muted); font-size: 11px; letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; color: var(--ink); font-weight: 700; }
+    .brand-mark { width: 8px; height: 8px; border-radius: 50%; background: var(--red); box-shadow: 0 0 16px rgba(212,86,66,.5); }
+    .top-right { display: flex; align-items: center; gap: 20px; }
+    .top-action {
+      border: 0; background: transparent; color: var(--muted); cursor: pointer;
+      padding: 6px 0; letter-spacing: inherit; text-transform: inherit; font-size: inherit;
+    }
+    .top-action:hover { color: var(--ink); }
+    .slides { position: absolute; inset: 0; }
+    .slide {
+      display: none; position: absolute; inset: 0;
+      padding: 100px var(--gutter) 84px;
+      overflow: auto;
+      scrollbar-color: var(--dim) transparent;
+    }
+    .slide.active { display: flex; flex-direction: column; animation: slide-in .42s var(--ease) both; }
+    .slide-inner { width: min(100%, 1280px); margin: auto; }
+    @keyframes slide-in {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .eyebrow {
+      margin: 0 0 17px; color: var(--red-soft); font-size: 11px;
+      font-weight: 700; letter-spacing: .19em; text-transform: uppercase;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, .serif { font-family: var(--serif); font-weight: 400; letter-spacing: -.035em; }
+    h1 { max-width: 850px; margin-bottom: 22px; font-size: clamp(44px, 7vw, 91px); line-height: .99; }
+    h2 { max-width: 930px; margin-bottom: 30px; font-size: clamp(35px, 5vw, 64px); line-height: 1.04; }
+    h3 { margin-bottom: 10px; font-size: clamp(16px, 1.65vw, 22px); line-height: 1.2; }
+    p, li { color: #d0cec7; font-size: clamp(14px, 1.36vw, 18px); line-height: 1.55; }
+    .lead { max-width: 740px; color: #d6d2c9; font-size: clamp(17px, 2vw, 24px); line-height: 1.48; }
+    .small { color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .tiny { color: var(--dim); font-size: 11px; line-height: 1.45; }
+    .accent { color: var(--red-soft); }
+    .gold { color: var(--gold); }
+    .mint { color: var(--mint); }
+    .muted { color: var(--muted); }
+    .divider { height: 1px; background: var(--line); margin: 24px 0; }
+    .source {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: #a7a59d; font-size: 11px; letter-spacing: .02em;
+    }
+    .source::before { content: ""; width: 18px; height: 1px; background: var(--red); }
+    .tag {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 7px 10px; border: 1px solid var(--line); border-radius: 99px;
+      color: #c7c4bb; font-size: 11px; line-height: 1; letter-spacing: .05em;
+    }
+    .tag::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+    .tag.red::before { background: var(--red); }
+    .tag.green::before { background: var(--mint); }
+    .grid { display: grid; gap: 14px; }
+    .grid.two { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .grid.three { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .grid.four { grid-template-columns: repeat(4, minmax(0,1fr)); }
+    .card {
+      position: relative; padding: clamp(17px, 2vw, 26px);
+      border: 1px solid var(--line); border-radius: 3px;
+      background: linear-gradient(145deg, rgba(255,255,255,.035), rgba(255,255,255,.012));
+    }
+    .card p:last-child, .card ul:last-child { margin-bottom: 0; }
+    .card .index {
+      margin-bottom: 17px; color: var(--red-soft); font-family: var(--serif);
+      font-size: 30px; line-height: 1;
+    }
+    .card p { margin-bottom: 0; font-size: clamp(13px, 1.15vw, 15px); }
+    .bar { height: 4px; width: 34px; margin: 0 0 15px; background: var(--red); }
+    .callout {
+      border-left: 2px solid var(--red);
+      padding: 14px 18px; background: rgba(212,86,66,.08);
+      color: #e7c7bf; font-size: 14px; line-height: 1.55;
+    }
+    .callout.goldline { border-color: var(--gold); background: rgba(215,183,121,.07); color: #e5d7b8; }
+    .callout.greenline { border-color: var(--mint); background: rgba(155,195,174,.07); color: #c8dfd1; }
+    .hero {
+      min-height: 100%; justify-content: center;
+      background:
+        linear-gradient(90deg, rgba(18,18,17,.98) 0%, rgba(18,18,17,.91) 36%, rgba(18,18,17,.28) 100%),
+        linear-gradient(0deg, rgba(18,18,17,.68), transparent 52%),
+        url("./visual-sampul.png") center 46% / cover no-repeat,
+        #252321;
+    }
+    .hero::after {
+      content: ""; position: absolute; inset: 0; z-index: -1;
+      background: linear-gradient(140deg, transparent 54%, rgba(212,86,66,.12));
+      pointer-events: none;
+    }
+    .hero .slide-inner { margin-left: 0; }
+    .hero h1 em { color: var(--red-soft); font-style: normal; }
+    .hero-meta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 34px; }
+    .hero-foot { display: flex; align-items: center; gap: 12px; margin-top: 54px; color: #c2bfb6; font-size: 12px; }
+    .hero-foot .line { width: 42px; height: 1px; background: var(--red); }
+    .split { display: grid; grid-template-columns: .82fr 1.18fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
+    .metric {
+      display: flex; align-items: baseline; gap: 10px;
+      font-family: var(--serif); font-size: clamp(36px, 5vw, 66px); color: var(--ink);
+    }
+    .metric small { color: var(--muted); font-family: var(--sans); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+    .pillars { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; overflow: hidden; background: var(--line); border: 1px solid var(--line); }
+    .pillar { min-height: 130px; padding: 22px; background: var(--panel); }
+    .pillar b { display: block; margin-bottom: 9px; font-family: var(--serif); font-size: 23px; font-weight: 400; }
+    .pillar span { color: var(--muted); font-size: 13px; line-height: 1.45; }
+    .stepper { display: grid; grid-template-columns: repeat(5,1fr); gap: 10px; margin: 34px 0 20px; }
+    .step { position: relative; min-height: 122px; padding: 17px 15px; border-top: 2px solid #66534e; background: var(--panel); }
+    .step:not(:last-child)::after { content: "→"; position: absolute; top: 43%; right: -10px; z-index: 1; color: var(--red-soft); font-size: 18px; }
+    .step b { display: block; margin-bottom: 9px; color: var(--ink); font-family: var(--serif); font-size: 19px; font-weight: 400; }
+    .step span { color: var(--muted); font-size: 12px; line-height: 1.4; }
+    .timeline { position: relative; display: grid; grid-template-columns: repeat(4,1fr); gap: 0; margin: 32px 0; }
+    .timeline::before { content: ""; position: absolute; top: 8px; left: 5px; right: 5px; height: 1px; background: var(--line); }
+    .event { position: relative; padding: 30px 18px 0 0; }
+    .event::before { content: ""; position: absolute; top: 4px; left: 0; width: 8px; height: 8px; border: 2px solid var(--red); border-radius: 50%; background: var(--night); }
+    .event b { display: block; margin-bottom: 7px; color: var(--gold); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+    .event span { color: #ccc9c1; font-size: 13px; line-height: 1.45; }
+    .money-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; padding: 15px 0; border-bottom: 1px solid var(--line); }
+    .money-row:last-child { border-bottom: 0; }
+    .money-row b { font-size: 14px; font-weight: 600; }
+    .money-row strong { color: var(--gold); font-family: var(--serif); font-size: 22px; font-weight: 400; white-space: nowrap; }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th, td { padding: 13px 15px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--red-soft); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }
+    td { color: #d1cec6; font-size: 12px; line-height: 1.45; }
+    tr:last-child td { border-bottom: 0; }
+    .status { display: inline-block; padding: 5px 8px; border-radius: 2px; background: rgba(215,183,121,.12); color: var(--gold); font-size: 10px; white-space: nowrap; }
+    .status.known { background: rgba(155,195,174,.12); color: var(--mint); }
+    .status.pending { background: rgba(212,86,66,.12); color: var(--red-soft); }
+    .source-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 22px; }
+    .source-item { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+    .source-item b { color: var(--red-soft); font-family: var(--serif); font-size: 18px; font-weight: 400; }
+    .source-item span { color: #cbc8c0; font-size: 12px; line-height: 1.4; }
+    .footer {
+      position: absolute; z-index: 10; inset: auto 0 0;
+      display: flex; align-items: center; justify-content: space-between;
+      min-height: 58px; padding: 0 var(--gutter);
+      border-top: 1px solid rgba(255,255,255,.07); background: rgba(23,23,22,.84);
+      backdrop-filter: blur(12px);
+    }
+    .progress-track { position: absolute; inset: -1px 0 auto; height: 2px; background: rgba(255,255,255,.06); }
+    .progress-fill { height: 100%; width: 5%; background: var(--red); transition: width .35s var(--ease); }
+    .foot-left, .foot-right { display: flex; align-items: center; gap: 14px; }
+    .page-count { color: var(--ink); font-variant-numeric: tabular-nums; font-size: 12px; }
+    .page-count .slash { margin: 0 4px; color: var(--dim); }
+    .nav-button {
+      display: grid; width: 34px; height: 34px; place-items: center;
+      border: 1px solid var(--line); border-radius: 50%;
+      color: var(--ink); background: transparent; cursor: pointer;
+      transition: background .2s ease, border-color .2s ease, transform .2s ease;
+    }
+    .nav-button:hover { border-color: var(--red); background: rgba(212,86,66,.12); transform: translateY(-1px); }
+    .nav-button:disabled { opacity: .35; cursor: default; transform: none; }
+    .keyhint { color: var(--dim); font-size: 10px; }
+    .overview {
+      display: none; position: fixed; z-index: 30; inset: 0; padding: 90px var(--gutter) 30px;
+      overflow: auto; background: rgba(19,19,18,.97); backdrop-filter: blur(14px);
+    }
+    .overview.open { display: block; animation: slide-in .22s ease both; }
+    .overview-head { display: flex; align-items: end; justify-content: space-between; margin-bottom: 22px; }
+    .overview-head h2 { margin: 0; font-size: 38px; }
+    .thumbs { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; }
+    .thumb {
+      min-height: 108px; padding: 14px; border: 1px solid var(--line); border-radius: 3px;
+      color: var(--ink); text-align: left; background: var(--panel); cursor: pointer;
+    }
+    .thumb:hover, .thumb[aria-current="true"] { border-color: var(--red); background: #292522; }
+    .thumb small { display: block; margin-bottom: 9px; color: var(--red-soft); font-size: 10px; }
+    .thumb span { display: block; font-family: var(--serif); font-size: 17px; line-height: 1.2; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    @media (max-width: 900px) {
+      .grid.four { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .split { grid-template-columns: 1fr; }
+      .timeline { grid-template-columns: repeat(2,1fr); row-gap: 8px; }
+      .timeline::before { display: none; }
+      .event { padding-top: 18px; border-top: 1px solid var(--line); }
+      .event::before { top: -5px; }
+      .thumbs { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    }
+    @media (max-width: 620px) {
+      .deck { min-height: 480px; }
+      .topbar { padding: 14px 18px; }
+      .topbar .brand { font-size: 9px; }
+      .top-right { gap: 11px; }
+      .top-right .top-action { font-size: 9px; }
+      .slide { padding: 78px 22px 82px; }
+      .hero { background-position: center, center, 58% center, center; }
+      .hero .slide-inner { padding-top: 45px; }
+      .grid.two, .grid.three, .grid.four { grid-template-columns: 1fr; }
+      .pillars { grid-template-columns: repeat(2,1fr); }
+      .pillar { min-height: 105px; padding: 16px; }
+      .stepper { grid-template-columns: 1fr; }
+      .step { min-height: auto; padding: 14px; }
+      .step:not(:last-child)::after { content: "↓"; top: auto; bottom: -14px; right: 50%; }
+      .timeline { grid-template-columns: 1fr; }
+      .source-list { grid-template-columns: 1fr; }
+      .footer { padding: 0 18px; }
+      .keyhint { display: none; }
+      .foot-left, .foot-right { gap: 9px; }
+      .thumbs { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .overview { padding: 76px 18px 24px; }
+      .overview-head h2 { font-size: 30px; }
+      th, td { padding: 10px; }
+      #slide-5 .grid.four { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      #slide-7 .split, #slide-15 .split { grid-template-columns: 1fr; }
+      #slide-12 .timeline { grid-template-columns: repeat(2,1fr); }
+      #slide-12 .timeline::before { display: none; }
+      #slide-12 .event { padding-top: 18px; border-top: 1px solid var(--line); }
+      #slide-12 .event::before { top: -5px; }
+    }
+    @media (max-height: 690px) and (min-width: 621px) {
+      .slide { padding-top: 82px; padding-bottom: 70px; }
+      h2 { margin-bottom: 19px; }
+      .card { padding: 16px; }
+      .card .index { margin-bottom: 10px; }
+      .footer { min-height: 50px; }
+    }
+    #slide-15 .lead { font-size: clamp(16px, 1.7vw, 21px); }
+    #slide-15 h2 { margin-bottom: 18px; }
+    #slide-15 .card { padding: 18px; }
+    #slide-15 .money-row { padding: 10px 0; }
+    #slide-15 .divider { margin: 15px 0; }
+    #slide-15 > .source { margin-top: 10px !important; }
+    #slide-20 h2 { margin-bottom: 18px; }
+    #slide-20 .card { padding: 15px 18px; }
+    #slide-20 .card .index { margin-bottom: 8px; }
+    #slide-20 .source-item { padding: 7px 0; }
+    #slide-20 .source-list { gap: 7px 18px; }
+    #slide-20 .tiny { margin-top: 10px !important; }
+    #slide-20 > .slide-inner > .source { margin-top: 10px !important; }
+    @media (min-width: 621px) {
+      #slide-3 h2, #slide-4 h2, #slide-7 h2, #slide-8 h2, #slide-12 h2, #slide-15 h2, #slide-18 h2, #slide-20 h2 {
+        font-size: clamp(38px, 4.4vw, 54px);
+      }
+      #slide-3 h2, #slide-4 h2, #slide-7 h2, #slide-8 h2, #slide-12 h2, #slide-18 h2, #slide-20 h2 { margin-bottom: 18px; }
+      #slide-3 .card { padding: 13px; }
+      #slide-3 .card .index { margin-bottom: 9px; font-size: 24px; }
+      #slide-3 .card p { font-size: 12px; line-height: 1.35; }
+      #slide-3 .tiny { margin-top: 11px !important; }
+      #slide-4 h2 { font-size: clamp(38px, 4vw, 48px); }
+      #slide-4 .lead { font-size: 17px; margin-bottom: 12px; }
+      #slide-4 .pillars { margin-top: 20px !important; }
+      #slide-4 .pillar { min-height: 108px; padding: 15px; }
+      #slide-5 .grid.four { grid-template-columns: repeat(4, minmax(0,1fr)); gap: 9px; }
+      #slide-5 .card { padding: 13px; }
+      #slide-5 .card .index { margin-bottom: 9px; font-size: 24px; }
+      #slide-5 .card h3 { margin-bottom: 6px; font-size: 16px; }
+      #slide-5 .card p { font-size: 12px; line-height: 1.35; }
+      #slide-7 .split { grid-template-columns: .78fr 1.22fr; gap: 24px; }
+      #slide-7 .stepper { grid-template-columns: repeat(2,1fr) !important; gap: 7px; margin: 15px 0 8px !important; }
+      #slide-7 .step { min-height: 82px; padding: 11px; }
+      #slide-7 .step:not(:last-child)::after { display: none; }
+      #slide-8 .grid.four { grid-template-columns: repeat(4, minmax(0,1fr)); gap: 9px; }
+      #slide-8 .card { padding: 14px; }
+      #slide-8 .card .index { margin-bottom: 9px; font-size: 24px; }
+      #slide-8 .card h3 { font-size: 16px; }
+      #slide-8 .card p { font-size: 12px; line-height: 1.35; }
+      #slide-8 .callout { padding: 10px 14px; }
+      #slide-12 .timeline { grid-template-columns: repeat(4,1fr); margin: 20px 0; }
+      #slide-12 .timeline::before { display: block; }
+      #slide-12 .event { padding-top: 26px; border-top: 0; }
+      #slide-12 .event::before { top: 4px; }
+      #slide-12 .event span { font-size: 12px; }
+      #slide-12 .timeline { margin: 12px 0; }
+      #slide-12 .callout { padding: 9px 13px; }
+      #slide-12 > .slide-inner > .source { margin-top: 9px !important; }
+      #slide-15 .split { grid-template-columns: .86fr 1.14fr; gap: 24px; }
+      #slide-15 .tiny { font-size: 11px; }
+      #slide-16 h2 { font-size: clamp(38px, 4.4vw, 54px); margin-bottom: 18px; }
+      #slide-16 .card { padding: 15px; }
+      #slide-16 .money-row { padding: 8px 0; }
+      #slide-16 .step { min-height: 0; padding: 11px 13px; margin: 7px 0 !important; }
+      #slide-16 .step b { margin-bottom: 4px; font-size: 16px; }
+      #slide-16 .step span { font-size: 12px; }
+      #slide-16 .callout { padding: 9px 13px; }
+      #slide-18 td, #slide-18 th { padding: 9px 11px; }
+      #slide-18 td { font-size: 11px; }
+      #slide-20 > .slide-inner > .source { margin-top: 6px !important; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+    @media print {
+      :root { color-scheme: light; --ink: #161616; --muted: #555; --dim: #777; --night: #fff; --panel: #f5f3ef; --panel-2: #eee; --line: rgba(0,0,0,.17); }
+      html, body { height: auto; overflow: visible; background: #fff; }
+      .deck, .slides { height: auto; position: static; background: #fff; }
+      .topbar, .footer, .overview, .skip-link { display: none !important; }
+      .slide, .slide.active { position: relative; display: flex !important; height: 190mm; min-height: 190mm; padding: 16mm; overflow: hidden; page-break-after: always; color: #161616; background-color: #fff; animation: none; }
+      .slide:not(.hero) { break-after: page; }
+      .slide p, .slide li, .slide td, .slide .card p, .slide .small { color: #444; }
+      .card, .pillar, .step { background: #f5f3ef; }
+      .hero { color: white; print-color-adjust: exact; }
+      .hero p, .hero .hero-foot { color: #eee; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#slide-1">Langsung ke presentasi</a>
+  <main class="deck" aria-label="Presentasi evaluasi pembinaan atlet para-taekwondo">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark"></span> Evaluasi Pembinaan <span class="muted">/ NPCI Jakarta</span></div>
+      <div class="top-right">
+        <span id="section-label">PEMBUKAAN</span>
+        <button class="top-action" id="overview-open" type="button" aria-label="Buka daftar slide">DAFTAR SLIDE</button>
+        <button class="top-action" id="fullscreen" type="button" aria-label="Aktifkan layar penuh">LAYAR PENUH</button>
+      </div>
+    </header>
+    <div class="slides" aria-live="polite">
+      <section class="slide hero active" id="slide-1" data-title="Sampul" data-section="PEMBUKAAN" aria-label="Slide 1 dari 20">
+        <div class="slide-inner">
+          <p class="eyebrow">Forum evaluasi internal · NPCI Jakarta</p>
+          <h1>Latihan yang<br>membangun <em>atlet.</em></h1>
+          <p class="lead">Evaluasi proses pembinaan para-taekwondo—menautkan pengalaman, kebutuhan atlet, dan langkah perbaikan.</p>
+          <div class="hero-meta">
+            <span class="tag">Pembinaan & transfer ilmu</span>
+            <span class="tag">Keselamatan & komunikasi</span>
+            <span class="tag">Tindak lanjut terukur</span>
+          </div>
+          <div class="hero-foot"><span class="line"></span> BAHAN DISKUSI INTERNAL <span class="muted">· Identitas mengikuti sumber</span></div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-2" data-title="Tujuan dan batas evaluasi" data-section="LANDASAN" aria-label="Slide 2 dari 20">
+        <div class="slide-inner split">
+          <div>
+            <p class="eyebrow">01 / Landasan</p>
+            <h2>Evaluasi proses.<br><span class="accent">Bukan vonis.</span></h2>
+          </div>
+          <div>
+            <p class="lead">Materi ini merangkum pengalaman dan pengamatan yang dicatat penulis, lalu membandingkannya dengan prinsip pembinaan dan indikator evaluasi.</p>
+            <div class="grid two" style="margin:24px 0">
+              <div class="card"><div class="bar"></div><h3>Yang dibahas</h3><p>Mutu latihan, komunikasi, keselamatan, kehadiran, persiapan tanding, dan pengelolaan dana yang perlu diklarifikasi.</p></div>
+              <div class="card"><div class="bar" style="background:var(--gold)"></div><h3>Batas kesimpulan</h3><p>Catatan bukan verifikasi independen, audit, atau kesimpulan hukum. Dugaan motif dipisahkan dari kejadian dan dampak yang dirasakan.</p></div>
+            </div>
+            <span class="source">Sumber: Dokumen 4 — tujuan dan batasan</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-3" data-title="Sumber dan cara membaca materi" data-section="LANDASAN" aria-label="Slide 3 dari 20">
+        <div class="slide-inner">
+          <p class="eyebrow">02 / Landasan</p>
+          <h2>Lima dokumen.<br>Satu alur evaluasi.</h2>
+          <div class="grid three">
+            <div class="card"><div class="index">01</div><h3>Laporan masalah</h3><p>Kelompok isu pembinaan yang perlu ditinjau.</p></div>
+            <div class="card"><div class="index">02</div><h3>Rangkuman pembinaan</h3><p>Kerangka latihan, pemulihan, komunikasi, dan dukungan atlet.</p></div>
+            <div class="card"><div class="index">03</div><h3>Mengenal pelatih toxic</h3><p>Panduan umum membaca indikator dan membedakan ketegasan dari perilaku abusif.</p></div>
+            <div class="card"><div class="index">04</div><h3>Pemetaan indikator</h3><p>Pengalaman dibandingkan dengan indikator, termasuk batas bukti.</p></div>
+            <div class="card"><div class="index">05</div><h3>Catatan mentah</h3><p>Sumber konteks dan kronologi—diringkas, diatribusikan, tidak disalin mentah.</p></div>
+            <div class="card" style="background:rgba(212,86,66,.07)"><div class="index">→</div><h3>Cara membaca</h3><p>Kerangka baik → isu tercatat → bukti yang dibutuhkan → tindak lanjut.</p></div>
+          </div>
+          <p class="tiny" style="margin-top:17px">Dokumen yang menjadi bahan: 1 Laporan Masalah Terkini Taekwondo · 2 Rangkuman Naratif Pembinaan Atlet dan Pelatih · 3 Mengenal Pelatih Toxic · 4 Pemetaan Indikator Pelatih Toxic · 5 Data Mentah Catatan Toxicc.</p>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-4" data-title="Pembinaan atlet yang ingin dicapai" data-section="STANDAR PEMBINAAN" aria-label="Slide 4 dari 20">
+        <div class="slide-inner">
+          <p class="eyebrow">03 / Standar pembinaan</p>
+          <h2>Prestasi penting.<br><span class="gold">Manusia di baliknya juga.</span></h2>
+          <p class="lead">Pembinaan yang utuh menumbuhkan performa sekaligus kesehatan, pemahaman, rasa aman, dan kemandirian atlet.</p>
+          <div class="pillars" style="margin-top:34px">
+            <div class="pillar"><b>Teknik</b><span>Gerak dipahami, dibentuk, lalu dikuasai.</span></div>
+            <div class="pillar"><b>Taktik</b><span>Atlet tahu kapan dan mengapa teknik digunakan.</span></div>
+            <div class="pillar"><b>Fisik</b><span>Kekuatan, kecepatan, daya tahan, koordinasi.</span></div>
+            <div class="pillar"><b>Kesehatan</b><span>Beban dan pemulihan sesuai kondisi individu.</span></div>
+            <div class="pillar"><b>Karakter</b><span>Disiplin, tanggung jawab, dan respek.</span></div>
+            <div class="pillar"><b>Relasi</b><span>Komunikasi dua arah dan dukungan yang aman.</span></div>
+          </div>
+          <p class="source" style="margin-top:18px">Sumber: Dokumen 2 — pembinaan atlet dan pelatih</p>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-5" data-title="Ringkasan isu dari catatan" data-section="CATATAN EVALUASI" aria-label="Slide 5 dari 20">
+        <div class="slide-inner">
+          <p class="eyebrow">04 / Catatan evaluasi</p>
+          <h2>Area yang muncul<br>dalam catatan.</h2>
+          <div class="grid four">
+            <div class="card"><div class="index">01</div><h3>Transfer ilmu</h3><p>Teknik, tahapan, teori, dan strategi bertanding.</p></div>
+            <div class="card"><div class="index">02</div><h3>Struktur latihan</h3><p>Progresi, beban, evaluasi, dan adaptasi individu.</p></div>
+            <div class="card"><div class="index">03</div><h3>Komunikasi</h3><p>Kejelasan arahan, ruang bertanya, dan cara memberi koreksi.</p></div>
+            <div class="card"><div class="index">04</div><h3>Kehadiran</h3><p>Informasi jadwal dan pendampingan selama sesi.</p></div>
+            <div class="card"><div class="index">05</div><h3>Kondisi atlet</h3><p>Respons terhadap kelelahan, nyeri, dan kebutuhan adaptif.</p></div>
+            <div class="card"><div class="index">06</div><h3>Persiapan tanding</h3><p>Strategi, evaluasi performa, dan kesiapan logistik.</p></div>
+            <div class="card"><div class="index">07</div><h3>Tata kelola</h3><p>Aturan, pengambilan keputusan, dan transparansi dana.</p></div>
+            <div class="card" style="border-color:rgba(212,86,66,.45)"><div class="index">!</div><h3>Status</h3><p>Ini tema yang tercatat; tiap kejadian perlu diklarifikasi sesuai bukti.</p></div>
+          </div>
+          <p class="source" style="margin-top:17px">Sumber: Dokumen 1 dan 4</p>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-6" data-title="Dari contoh gerakan ke pemahaman" data-section="MUTU LATIHAN" aria-label="Slide 6 dari 20">
+        <div class="slide-inner">
+          <p class="eyebrow">05 / Mutu latihan</p>
+          <h2>Gerakan yang dicontohkan<br>belum tentu <span class="accent">dipahami.</span></h2>
+          <div class="stepper">
+            <div class="step"><b>Jelaskan</b><span>Nama, tujuan, fungsi, dan situasi penggunaan.</span></div>
+            <div class="step"><b>Bentuk</b><span>Pecah teknik ke tahapan yang dapat dipelajari.</span></div>
+            <div class="step"><b>Latih</b><span>Ulangi dengan koreksi yang jelas dan terukur.</span></div>
+            <div class="step"><b>Kuasai</b><span>Pastikan atlet mengerti, bukan sekadar meniru.</span></div>
+            <div class="step"><b>Terapkan</b><span>Uji teknik dalam konteks latihan/sparring.</span></div>
+          </div>
+          <div class="callout">Catatan penulis menyebut banyak materi teknik diperkenalkan, sementara nama, tahapan, fungsi, dan cara menerapkannya belum selalu dipahami. Ini adalah pengalaman yang dilaporkan—perlu dicocokkan dengan program dan keterangan lain.</div>
+          <p class="source" style="margin-top:16px">Sumber: Dokumen 1 dan 5; prinsip latihan Dokumen 2</p>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-7" data-title="Strategi dan kombinasi saat sparring" data-section="MUTU LATIHAN" aria-label="Slide 7 dari 20">
+        <div class="slide-inner split">
+          <div>
+            <p class="eyebrow">06 / Mutu latihan</p>
+            <h2>Teknik perlu<br>punya <span class="accent">rangkaian.</span></h2>
+            <p class="lead">Atlet membutuhkan contoh formula yang dapat dicoba, disesuaikan, dan dievaluasi—bukan hanya instruksi untuk “gunakan lebih banyak teknik”.</p>
+          </div>
+          <div>
+            <div class="card" style="margin-bottom:12px">
+              <span class="tag red">CONTOH STRUKTUR, BUKAN RESEP TAKTIK</span>
+              <div class="stepper" style="grid-template-columns:repeat(4,1fr); margin:22px 0 10px">
+                <div class="step"><b>Pembuka</b><span>Pancing respons lawan</span></div>
+                <div class="step"><b>Lanjutan</b><span>Bangun kombinasi</span></div>
+                <div class="step"><b>Counter</b><span>Respons pada serangan</span></div>
+                <div class="step"><b>Evaluasi</b><span>Uji di sparring</span></div>
+              </div>
+            </div>
+            <div class="callout goldline">Usulan dalam catatan: pelatih membantu menyiapkan beberapa formula, lalu atlet menguji mana yang cocok dan membangun variasi sendiri.</div>
+            <p class="source" style="margin-top:16px">Sumber: Dokumen 1, 2, dan 5</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-8" data-title="Program latihan yang terstruktur dan adaptif" data-section="MUTU LATIHAN" aria-label="Slide 8 dari 20">
+        <div class="slide-inner">
+          <p class="eyebrow">07 / Mutu latihan</p>
+          <h2>Rencana yang hidup.<br>Bukan program yang kaku.</h2>
+          <div class="grid four">
+            <div class="card"><div class="index">01</div><h3>Kenali atlet</h3><p>Kemampuan, pengalaman, tujuan, kondisi, dan kebutuhan akses.</p></div>
+            <div class="card"><div class="index">02</div><h3>Tetapkan sasaran</h3><p>Target spesifik yang dipahami atlet dan pelatih.</p></div>
+            <div class="card"><div class="index">03</div><h3>Susun progresi</h3><p>Beban dan materi berkembang bertahap menuju kompetisi.</p></div>
+            <div class="card"><div class="index">04</div><h3>Evaluasi & sesuaikan</h3><p>Catat respons, kemajuan, kendala, lalu perbarui program.</p></div>
+          </div>
+          <div class="callout greenline" style="margin-top:18px">Adaptif bukan berarti tanpa standar. Artinya standar dan cara mencapai target disesuaikan dengan kebutuhan serta kondisi masing-masing atlet.</div>
+          <p class="source" style="margin-top:16px">Sumber: Dokumen 2; pertanyaan evaluasi pada Dokumen 1 dan 4</p>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-9" data-title="Beban, pemulihan, dan keselamatan" data-section="KESELAMATAN" aria-label="Slide 9 dari 20">
+        <div class="slide-inner">
+          <p class="eyebrow">08 / Keselamatan</p>
+          <h2>Beban latihan perlu<br>punya <span class="gold">alasan dan batas.</span></h2>
+          <div class="grid three">
+            <div class="card"><div class="bar"></div><h3>Sebelum sesi</h3><p>Apa tujuan latihan? Bagaimana kondisi atlet hari ini? Apa penyesuaian yang diperlukan?</p></div>
+            <div class="card"><div class="bar" style="background:var(--gold)"></div><h3>Saat sesi</h3><p>Pantau kualitas gerak, kelelahan, rasa sakit, hidrasi, serta pemahaman instruksi.</p></div>
+            <div class="card"><div class="bar" style="background:var(--mint)"></div><h3>Sesudah sesi</h3><p>Evaluasi respons dan pemulihan. Sesuaikan beban berikutnya bila dibutuhkan.</p></div>
+          </div>
+          <div class="divider"></div>
+          <div class="callout">Catatan memuat pengalaman terkait target lari dan keluhan kondisi atlet. Detail kesehatan pribadi tidak dipaparkan; kebutuhan klarifikasi bukan pengganti pemeriksaan profesional.</div>
+          <p class="source" style="margin-top:16px">Sumber: Dokumen 2 dan 4–5</p>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-10" data-title="Komunikasi dan ruang belajar yang aman" data-section="KOMUNIKASI" aria-label="Slide 10 dari 20">
+        <div class="slide-inner">
+          <p class="eyebrow">09 / Komunikasi</p>
+          <h2>Instruksi yang baik<br>membuat atlet <span class="mint">mengerti.</span></h2>
+          <div class="grid two">
+            <div class="card">
+              <span class="tag green">YANG MENDUKUNG BELAJAR</span>
+              <ul>
+                <li>Jelaskan tujuan dan cara memperbaiki teknik.</li>
+                <li>Gunakan bahasa yang dipahami atlet.</li>
+                <li>Beri ruang untuk bertanya dan menyampaikan kondisi.</li>
+                <li>Koreksi tindakan, bukan harga diri.</li>
+              </ul>
+            </div>
+            <div class="card">
+              <span class="tag red">HAL YANG PERLU DITINJAU</span>
+              <ul>
+                <li>Instruksi sulit dipahami atau tidak terdengar.</li>
+                <li>Komunikasi hanya satu arah atau lewat perantara.</li>
+                <li>Atlet tidak mendapat ruang untuk menjelaskan kendala.</li>
+                <li>Kritik berubah menjadi penghinaan personal.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="callout goldline" style="margin-top:14px">Catatan penulis juga menyebut unggahan latihan mandiri Hendri dan menduga koreksi atas video mungkin berkaitan dengan ia berhenti mengunggah. Hubungan sebab-akibat ini belum dikonfirmasi langsung kepada Hendri.</div>
+          <p class="source" style="margin-top:17px">Sumber: Dokumen 2–4</p>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-11" data-title="Tegas atau merendahkan?" data-section="KOMUNIKASI" aria-label="Slide 11 dari 20">
+        <div class="slide-inner">
+          <p class="eyebrow">10 / Komunikasi</p>
+          <h2>Standar boleh tinggi.<br><span class="accent">Martabat tetap dijaga.</span></h2>
+          <div class="grid two">
+            <div class="card" style="border-top:2px solid var(--mint)">
+              <span class="tag green">KOREKSI YANG TERARAH</span>
+              <h3 style="margin-top:18px">Fokus pada hal yang bisa diperbaiki</h3>
+              <p>“Kuda-kudamu goyah. Turunkan pinggul dan coba lagi.”</p>
+              <p class="small">Tujuan dan standar jelas; atlet tahu tindakan berikutnya.</p>
+            </div>
+            <div class="card" style="border-top:2px solid var(--red)">
+              <span class="tag red">PENGHINAAN PERSONAL</span>
+              <h3 style="margin-top:18px">Menyerang harga diri</h3>
+              <p>Catatan penulis melaporkan penggunaan perbandingan dengan “monyet”, “gembel”, dan “keledai”.</p>
+              <p class="small">Kutipan ini perlu dikonfirmasi konteks, waktu, saksi, dan kesesuaian kata sebelum dipakai sebagai bukti.</p>
+            </div>
+          </div>
+          <div class="callout goldline" style="margin-top:16px">Dokumen panduan membedakan ketegasan dari perilaku toxic berdasarkan tujuan, konsistensi, respons pada batas fisik, serta dampak yang berulang—bukan dari keras atau lembutnya suara saja.</div>
+          <p class="source" style="margin-top:14px">Sumber: Dokumen 3–5; kutipan diatribusikan sebagai catatan penulis</p>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-12" data-title="Catatan kehadiran dan pendampingan" data-section="KEHADIRAN" aria-label="Slide 12 dari 20">
+        <div class="slide-inner">
+          <p class="eyebrow">11 / Kehadiran & tanggung jawab</p>
+          <h2>Jadwal, kabar,<br>dan pendampingan.</h2>
+          <p class="lead">Catatan penulis menyebut beberapa keterlambatan/ketidakhadiran dan sesi yang menurut pengalamannya tidak didampingi langsung.</p>
+          <div class="timeline">
+            <div class="event"><b>Catatan 1</b><span>Pelatih disebut datang sekitar pukul 18.00 dan sesi tertunda.</span></div>
+            <div class="event"><b>Catatan 2</b><span>Atlet mengingat instruksi lari/jogstraight ketika pelatih terlambat.</span></div>
+            <div class="event"><b>Catatan 3</b><span>Penulis menyebut sesi ditinggalkan setelah sekitar 30 menit dan pelatih menuju latihan di UNJ; bagian sesi lain disebut memakai instruksi WhatsApp/foto bertimestamp.</span></div>
+            <div class="event"><b>Perlu dicocokkan</b><span>Hari/tanggal, jadwal, pesan grup, absensi, saksi, dan penanggung jawab sesi.</span></div>
+          </div>
+          <div class="callout">Catatan mentah menyebut “keempat” pada rangkaian hari Jumat; tanggal pasti belum disusun dalam dokumen pemetaan. Kronologi ini perlu dilengkapi sebelum dijadikan kesimpulan pola.</div>
+          <p class="source" style="margin-top:15px">Sumber: Dokumen 4–5</p>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-13" data-title="Contoh pengalaman latihan dan komunikasi" data-section="PENGALAMAN" aria-label="Slide 13 dari 20">
+        <div class="slide-inner">
+          <p class="eyebrow">12 / Pengalaman yang dilaporkan</p>
+          <h2>Contoh yang layak<br>ditelusuri lebih lanjut.</h2>
+          <div class="grid three">
+            <div class="card">
+              <div class="metric">5 km <small>/ 30 menit</small></div>
+              <h3 style="margin-top:8px">Target lari</h3>
+              <p>Catatan menyebut tambahan lari 30 menit bila target tidak tercapai pada satu sesi. Perlu diperiksa tujuan program, kondisi atlet, dan penerapan di sesi lain.</p>
+            </div>
+            <div class="card">
+              <div class="metric">TOT <small>/ adaptif</small></div>
+              <h3 style="margin-top:8px">Keikutsertaan pelatihan</h3>
+              <p>Penulis melaporkan pesan dan telepon terkait izin mengikuti Training of Trainers olahraga disabilitas adaptif. Periksa komunikasi, aturan izin, dan konteks respons.</p>
+            </div>
+            <div class="card">
+              <div class="metric">15 → 20 <small>menit</small></div>
+              <h3 style="margin-top:8px">Durasi jogging</h3>
+              <p>Catatan mentah menyebut pemanasan yang awalnya disebut 15 menit berlanjut sekitar 20 menit. Cocokkan dengan saksi dan konteks sesi.</p>
+            </div>
+          </div>
+          <p class="tiny" style="margin-top:17px">Semua contoh adalah isi catatan penulis, bukan temuan independen. Angka dan kronologi harus dicocokkan dengan jadwal, pesan, saksi, dan/atau program latihan.</p>
+          <p class="source">Sumber: Dokumen 4–5</p>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-14" data-title="Kebutuhan atlet dalam persiapan pertandingan" data-section="PERTANDINGAN" aria-label="Slide 14 dari 20">
+        <div class="slide-inner">
+          <p class="eyebrow">13 / Persiapan pertandingan</p>
+          <h2>Persiapan bukan cuma<br>hari pertandingan.</h2>
+          <div class="grid three">
+            <div class="card"><div class="index">A</div><h3>Sebelum</h3><p>Matangkan teknik dan formula; sepakati target individu; siapkan perlengkapan, jadwal, dan kebutuhan atlet.</p></div>
+            <div class="card"><div class="index">B</div><h3>Saat tanding</h3><p>Arahan ringkas yang membantu fokus; pendampingan; strategi yang sesuai situasi pertandingan.</p></div>
+            <div class="card"><div class="index">C</div><h3>Sesudah</h3><p>Evaluasi kekuatan dan kebutuhan perbaikan atlet; susun program tindak lanjut, bukan sekadar menyalahkan hasil.</p></div>
+          </div>
+          <div class="divider"></div>
+          <div class="callout goldline">Catatan penulis memuat masukan tentang strategi, koreksi di arena, logistik, dan evaluasi performa. Sebagiannya merupakan rekomendasi penulis, bukan bukti bahwa prosedur tertentu telah dilanggar.</div>
+          <p class="source" style="margin-top:15px">Sumber: Dokumen 2, 4, dan 5</p>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-15" data-title="Rincian dana akomodasi Bandung" data-section="TRANSPARANSI DANA" aria-label="Slide 15 dari 20">
+        <div class="slide-inner split">
+          <div>
+            <p class="eyebrow">14 / Transparansi dana</p>
+            <h2>Akomodasi<br><span class="gold">Bandung.</span></h2>
+            <p class="lead">Catatan penulis meminta kejelasan penggunaan dana perjalanan/akomodasi pertandingan selama lima hari.</p>
+            <p class="tiny">Angka di bawah dilaporkan dalam catatan mentah. Belum jelas apakah Rp2,6 juta adalah per atlet atau total; seluruhnya belum dicocokkan dengan bukti transaksi/laporan kas.</p>
+          </div>
+          <div class="card">
+            <div class="money-row"><b>Dana yang dicatat terkumpul</b><strong>Rp2,6 jt</strong></div>
+            <div class="money-row"><b>Dikembalikan untuk oleh-oleh (menurut catatan)</b><strong>Rp500 rb</strong></div>
+            <div class="money-row"><b>Penggunaan dan saldo</b><strong>Perlu rincian</strong></div>
+            <div class="divider"></div>
+            <span class="tag">KLARIFIKASI YANG DIMINTA</span>
+            <p style="margin:16px 0 0">Rincian peruntukan, bukti pembayaran, jumlah penerima, pihak pemegang dana, sisa saldo, dan dasar kesepakatan.</p>
+          </div>
+        </div>
+        <p class="source" style="margin-top:20px">Sumber: Dokumen 5; isu transparansi dipetakan pada Dokumen 4</p>
+      </section>
+
+      <section class="slide" id="slide-16" data-title="Hadiah pertandingan dan pembelian perlengkapan" data-section="TRANSPARANSI DANA" aria-label="Slide 16 dari 20">
+        <div class="slide-inner">
+          <p class="eyebrow">15 / Transparansi dana</p>
+          <h2>Hadiah pertandingan<br>dan perlengkapan.</h2>
+          <div class="grid two">
+            <div class="card">
+              <div class="money-row"><b>Hadiah Ciracas (menurut catatan)</b><strong>Rp4 jt</strong></div>
+              <div class="money-row"><b>Hadiah Bandung (menurut catatan)</b><strong>Rp2 jt</strong></div>
+              <div class="money-row"><b>Pembelian 4 headguard (dicatat)</b><strong>~Rp2 jt</strong></div>
+              <p class="tiny" style="margin-top:14px">Total, tanggal penerimaan, dan transaksi perlu dicocokkan dengan dokumen asli.</p>
+            </div>
+            <div>
+              <h3>Yang perlu disepakati dalam rekonsiliasi</h3>
+              <div class="step" style="margin:10px 0"><b>1. Penerimaan</b><span>Nominal, sumber, tanggal, penerima/penanggung jawab.</span></div>
+              <div class="step" style="margin:10px 0"><b>2. Pengeluaran</b><span>Tujuan, bukti pembayaran, dan persetujuan penggunaan.</span></div>
+              <div class="step" style="margin:10px 0"><b>3. Saldo & laporan</b><span>Saldo tersisa, lokasi penyimpanan, dan akses laporan.</span></div>
+            </div>
+          </div>
+          <div class="callout goldline" style="margin-top:15px">Pemaparan ini adalah permintaan keterbukaan dan rekonsiliasi—bukan kesimpulan bahwa dana hilang atau disalahgunakan.</div>
+          <p class="source" style="margin-top:14px">Sumber: Dokumen 4–5</p>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-17" data-title="Potongan absensi dan pengelolaan kas" data-section="TRANSPARANSI DANA" aria-label="Slide 17 dari 20">
+        <div class="slide-inner">
+          <p class="eyebrow">16 / Transparansi dana</p>
+          <h2>Aturan kas yang jelas<br>melindungi <span class="mint">semua pihak.</span></h2>
+          <div class="grid two">
+            <div class="card">
+              <span class="tag red">ISI CATATAN PENULIS</span>
+              <p style="margin-top:19px">Penulis mempertanyakan potongan absensi atlet, pengumpulan dana tunai untuk perlengkapan, dan belum melihat laporan penggunaan dana.</p>
+              <p class="small">Catatan mentah juga memuat perkiraan total potongan selama sekitar 1,5 tahun. Perkiraan itu tidak ditampilkan sebagai angka karena belum didukung rekap transaksi.</p>
+            </div>
+            <div class="card">
+              <span class="tag">DOKUMEN YANG DIMINTA</span>
+              <ul>
+                <li>Aturan potongan dan persetujuannya.</li>
+                <li>Daftar nominal, tanggal, dan bukti penyerahan.</li>
+                <li>Buku kas, kuitansi, tujuan belanja, saldo.</li>
+                <li>Penanggung jawab dan prosedur pelaporan.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="callout" style="margin-top:16px">Bahasa netral: “memohon laporan pertanggungjawaban dan rekonsiliasi dana yang tercatat.” Hindari menyimpulkan niat atau pelanggaran sebelum pemeriksaan.</div>
+          <p class="source" style="margin-top:14px">Sumber: Dokumen 4 bagian keuangan; Dokumen 5</p>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-18" data-title="Pemetaan indikator dan batas bukti" data-section="VERIFIKASI" aria-label="Slide 18 dari 20">
+        <div class="slide-inner">
+          <p class="eyebrow">17 / Verifikasi</p>
+          <h2>Catatan → indikator →<br>bukti yang diperlukan.</h2>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Area</th><th>Isi catatan</th><th>Status</th><th>Langkah verifikasi</th></tr></thead>
+              <tbody>
+                <tr><td>Komunikasi</td><td>Bahasa merendahkan / instruksi membingungkan dilaporkan penulis.</td><td><span class="status pending">Perlu konfirmasi</span></td><td>Kutipan, waktu, konteks, saksi, dampak.</td></tr>
+                <tr><td>Program latihan</td><td>Latihan dinilai kurang terstruktur dan kurang penjelasan.</td><td><span class="status">Pengalaman</span></td><td>Program tertulis, materi sesi, evaluasi atlet.</td></tr>
+                <tr><td>Kehadiran</td><td>Keterlambatan/ketidakhadiran dan sesi tanpa pendampingan dicatat.</td><td><span class="status pending">Perlu kronologi</span></td><td>Jadwal, absensi, pesan grup, penanggung jawab.</td></tr>
+                <tr><td>Kesehatan</td><td>Keluhan kondisi atlet disebut kurang dipertimbangkan.</td><td><span class="status">Perlu privasi</span></td><td>Konfirmasi sukarela, respons, saksi; minimalkan data sensitif.</td></tr>
+                <tr><td>Keuangan</td><td>Penulis meminta rincian dan laporan dana.</td><td><span class="status pending">Belum diaudit</span></td><td>Bukti transaksi, catatan kas, penerima, saldo.</td></tr>
+                <tr><td>Kredensial</td><td>Catatan menyatakan belum memiliki bukti cukup.</td><td><span class="status">Belum diketahui</span></td><td>Konfirmasi ke organisasi/federasi penerbit.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="source" style="margin-top:15px">Sumber: Dokumen 4; indikator umum Dokumen 3</p>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-19" data-title="Rencana perbaikan dan tindak lanjut" data-section="TINDAK LANJUT" aria-label="Slide 19 dari 20">
+        <div class="slide-inner">
+          <p class="eyebrow">18 / Tindak lanjut</p>
+          <h2>Ubah kekhawatiran<br>menjadi <span class="mint">langkah terukur.</span></h2>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Waktu</th><th>Tindakan yang diusulkan</th><th>Hasil yang bisa diperiksa</th></tr></thead>
+              <tbody>
+                <tr><td><span class="status known">Segera</span></td><td>Lengkapi kronologi; kumpulkan jadwal, pesan, saksi, dan bukti transaksi secara aman.</td><td>Daftar isu + indeks bukti, tanpa menyebarkan data pribadi.</td></tr>
+                <tr><td><span class="status">30 hari</span></td><td>Forum klarifikasi; minta program latihan, mekanisme komunikasi, dan rekonsiliasi dana.</td><td>Notulen, pemilik tindakan, tenggat, dan dokumen jawaban.</td></tr>
+                <tr><td><span class="status">Berkala</span></td><td>Evaluasi individu dan sesi; kanal keluhan aman; tinjau adaptasi dan pemulihan atlet.</td><td>Catatan progres, umpan balik atlet, rencana koreksi.</td></tr>
+                <tr><td><span class="status">Kompetisi</span></td><td>Rencana persiapan, pendampingan, logistik, dan evaluasi pascatanding.</td><td>Rencana per atlet dan tinjauan setelah event.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="source" style="margin-top:15px">Usulan berdasarkan Dokumen 2 dan 4; perlu disepakati oleh forum</p>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-20" data-title="Keputusan forum dan sumber" data-section="PENUTUP" aria-label="Slide 20 dari 20">
+        <div class="slide-inner">
+          <p class="eyebrow">19 / Penutup</p>
+          <h2>Sepakati langkah.<br>Lalu ukur <span class="gold">perubahannya.</span></h2>
+          <div class="grid two" style="align-items:start">
+            <div>
+              <h3>Keputusan yang perlu dicatat forum</h3>
+              <div class="card" style="margin:10px 0"><span class="index">01</span><p>Isu mana yang perlu diklarifikasi terlebih dahulu?</p></div>
+              <div class="card" style="margin:10px 0"><span class="index">02</span><p>Siapa penanggung jawab, tenggat, dan bukti penyelesaiannya?</p></div>
+              <div class="card" style="margin:10px 0"><span class="index">03</span><p>Kapan evaluasi berikutnya dan bagaimana atlet dapat memberi masukan dengan aman?</p></div>
+            </div>
+            <div>
+              <h3>Sumber bahan</h3>
+              <div class="source-list">
+                <div class="source-item"><b>01</b><span>Laporan Masalah Terkini Taekwondo.docx</span></div>
+                <div class="source-item"><b>02</b><span>Rangkuman Naratif Pembinaan Atlet dan Pelatih.docx</span></div>
+                <div class="source-item"><b>03</b><span>Mengenal Pelatih Toxic.docx</span></div>
+                <div class="source-item"><b>04</b><span>Pemetaan Indikator Pelatih Toxic.docx</span></div>
+                <div class="source-item"><b>05</b><span>Data Mentah Catatan Toxicc.docx</span></div>
+              </div>
+              <p class="tiny" style="margin-top:15px">Pemetaan sumber menyatakan sejumlah pengalaman belum diverifikasi secara independen. Identitas dan lokasi yang tampil mengikuti nama yang tercantum dalam sumber; jangan menambah identitas atau menyebarkan salinan ini di luar tujuan forum tanpa peninjauan ulang.</p>
+            </div>
+          </div>
+          <p class="source" style="margin-top:18px">Bahan diskusi internal · NPCI Jakarta</p>
+        </div>
+      </section>
+    </div>
+    <footer class="footer">
+      <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progress"></div></div>
+      <div class="foot-left">
+        <span class="page-count"><span id="current">01</span><span class="slash">/</span><span>20</span></span>
+        <span class="keyhint">PANAH KIRI/KANAN UNTUK NAVIGASI</span>
+      </div>
+      <div class="foot-right">
+        <button class="nav-button" id="prev" type="button" aria-label="Slide sebelumnya">←</button>
+        <button class="nav-button" id="next" type="button" aria-label="Slide berikutnya">→</button>
+      </div>
+    </footer>
+  </main>
+  <aside class="overview" id="overview" aria-label="Daftar slide" aria-hidden="true">
+    <div class="overview-head">
+      <div><p class="eyebrow">Navigasi cepat</p><h2>Semua slide</h2></div>
+      <button class="nav-button" id="overview-close" type="button" aria-label="Tutup daftar slide">×</button>
+    </div>
+    <div class="thumbs" id="thumbs"></div>
+  </aside>
+  <div class="sr-only" id="announcement" aria-live="polite"></div>
+  <script>
+    (() => {
+      const slides = [...document.querySelectorAll(".slide")];
+      const overview = document.getElementById("overview");
+      const thumbs = document.getElementById("thumbs");
+      const currentEl = document.getElementById("current");
+      const progress = document.getElementById("progress");
+      const section = document.getElementById("section-label");
+      const announcement = document.getElementById("announcement");
+      let current = 0;
+      let returnFocus = null;
+      const pad = n => String(n).padStart(2, "0");
+      const show = (index, moveFocus = false) => {
+        current = Math.max(0, Math.min(slides.length - 1, index));
+        slides.forEach((slide, i) => {
+          slide.classList.toggle("active", i === current);
+          slide.setAttribute("aria-hidden", i === current ? "false" : "true");
+        });
+        currentEl.textContent = pad(current + 1);
+        progress.style.width = `${((current + 1) / slides.length) * 100}%`;
+        section.textContent = slides[current].dataset.section || "PRESENTASI";
+        announcement.textContent = `Slide ${current + 1} dari ${slides.length}: ${slides[current].dataset.title}`;
+        document.title = `${slides[current].dataset.title} — Evaluasi Pembinaan`;
+        document.querySelectorAll(".thumb").forEach((button, i) => {
+          button.setAttribute("aria-current", i === current ? "true" : "false");
+        });
+        if (moveFocus) slides[current].setAttribute("tabindex", "-1"), slides[current].focus({ preventScroll: true });
+        if (location.hash !== `#slide-${current + 1}`) history.replaceState(null, "", `#slide-${current + 1}`);
+      };
+      slides.forEach((slide, i) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "thumb";
+        button.innerHTML = `<small>${pad(i + 1)} / 20</small><span>${slide.dataset.title}</span>`;
+        button.addEventListener("click", () => { show(i); closeOverview(); });
+        thumbs.append(button);
+      });
+      const openOverview = () => {
+        returnFocus = document.activeElement;
+        overview.classList.add("open");
+        overview.setAttribute("aria-hidden", "false");
+        document.getElementById("overview-close").focus();
+      };
+      const closeOverview = () => {
+        overview.classList.remove("open");
+        overview.setAttribute("aria-hidden", "true");
+        if (returnFocus && returnFocus.focus) returnFocus.focus();
+      };
+      document.getElementById("next").addEventListener("click", () => show(current + 1));
+      document.getElementById("prev").addEventListener("click", () => show(current - 1));
+      document.getElementById("overview-open").addEventListener("click", openOverview);
+      document.getElementById("overview-close").addEventListener("click", closeOverview);
+      document.getElementById("fullscreen").addEventListener("click", async () => {
+        try {
+          if (!document.fullscreenElement) await document.querySelector(".deck").requestFullscreen();
+          else await document.exitFullscreen();
+        } catch (_) { announcement.textContent = "Mode layar penuh tidak tersedia di browser ini."; }
+      });
+      document.addEventListener("keydown", event => {
+        if (overview.classList.contains("open")) {
+          if (event.key === "Escape") { event.preventDefault(); closeOverview(); }
+          return;
+        }
+        if (["ArrowRight", "PageDown", " "].includes(event.key)) { event.preventDefault(); show(current + 1); }
+        if (["ArrowLeft", "PageUp"].includes(event.key)) { event.preventDefault(); show(current - 1); }
+        if (event.key === "Home") { event.preventDefault(); show(0); }
+        if (event.key === "End") { event.preventDefault(); show(slides.length - 1); }
+        if (event.key.toLowerCase() === "o") openOverview();
+      });
+      let touchX = null;
+      document.querySelector(".slides").addEventListener("touchstart", e => { touchX = e.changedTouches[0].clientX; }, { passive: true });
+      document.querySelector(".slides").addEventListener("touchend", e => {
+        if (touchX === null) return;
+        const delta = e.changedTouches[0].clientX - touchX;
+        if (Math.abs(delta) > 70) show(current + (delta < 0 ? 1 : -1));
+        touchX = null;
+      }, { passive: true });
+      const hashSlide = Number(location.hash.replace("#slide-", ""));
+      if (hashSlide > 0 && hashSlide <= slides.length) show(hashSlide - 1);
+      else show(0);
+    })();
+  </script>
+</body>
+</html>
